@@ -18,8 +18,12 @@ public class AccountController : ControllerBase
     }
 
     [HttpGet(Name = "GetAccountBalance")]
-    public double GetAccountBalance(int id)
+    public double? GetAccountBalance(int id)
     {
-        return 0;
+        if (id == 0)
+        {
+            return null;
+        }
+        return _accountService.GetAccount(id)?.Balance ?? null;
     }
 }

@@ -42,4 +42,12 @@ class AccountControllerTest
         Assert.That(result, Is.EqualTo(testAccount.Balance));
     }
 
+    [Test]
+    public void GetAccountBalanceTest_WithInValidId_ShouldReturnNull()
+    {
+        var result = _controller.GetAccountBalance(1);
+        
+        Assert.That(result, Is.Null);
+    }
+
 }
