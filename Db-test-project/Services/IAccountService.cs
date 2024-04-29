@@ -5,5 +5,5 @@ namespace DB_Test_API.Services;
 public interface IAccountService
 {
     public Account? GetAccount(int accountId);
-    public void CreateAccount (Account account);
+    public void CreateAccount (int customerId);
 }

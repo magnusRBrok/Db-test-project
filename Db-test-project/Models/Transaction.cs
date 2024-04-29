@@ -4,7 +4,6 @@ public class Transaction
 {
     public int Id { get; set; }
     public float Amount { get; set; }
-    public int RecipientAccountId { get; set; }
-    public int SenderAccountId {  get; set; }
+    public int AccountId { get; set; }
     public DateTime Timestamp { get; set; }
 }
