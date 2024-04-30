@@ -1,7 +1,7 @@
-﻿using DB_Test_API.Services;
+﻿using DB_Test_API.Models;
+using DB_Test_API.Services;
 using Db_test_project.DTOs.Create;
 using Microsoft.AspNetCore.Mvc;
-using System.Transactions;
 
 namespace DB_Test_API.Controllers;
 
@@ -19,7 +19,8 @@ public class AccountController : ControllerBase
         _accountService = accountService;
     }
 
-    [HttpGet(Name = "GetAccountBalance")]
+    [HttpGet()]
+    [Route("GetBalance/{accountId}")]
     public double? GetAccountBalance(int accountId)
     {
         if (accountId == 0)
@@ -29,7 +30,8 @@ public class AccountController : ControllerBase
         return _accountService.GetAccount(accountId)?.Balance ?? null;
     }
 
-    [HttpGet(Name = "GetLatestTransactions")]
+    [HttpGet()]
+    [Route("GetLatestTransactions/{accountId}")]
     public IEnumerable<Transaction> GetLastestTransactions(int accountId)
     {
         if (accountId == 0)
@@ -40,7 +42,8 @@ public class AccountController : ControllerBase
         //return _accountService.GetTransactions(accountId)?.Balance ?? null;
     }
 
-    [HttpGet(Name = "GetLatestTransactions")]
+    [HttpPost()]
+    [Route("CreateAccount")]
     public IActionResult CreateAccount(CreateAccountDto accountDto)
     {
         if (accountDto == null || accountDto.CustomerId == 0)

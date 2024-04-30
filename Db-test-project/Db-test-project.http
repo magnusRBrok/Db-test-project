@@ -1,6 +1,6 @@
 @Db_test_project_HostAddress = http://localhost:5098
 
-GET {{Db_test_project_HostAddress}}/weatherforecast/
+GET {{Db_test_project_HostAddress}}/Account/GetBalance/1
 Accept: application/json
 
 ###
