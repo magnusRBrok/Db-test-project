@@ -20,15 +20,13 @@ public class AccountController : ControllerBase
         _accountService = accountService;
     }
 
-    [HttpGet()]
-    [Route("GetBalance/{accountId}")]
-    public double? GetAccountBalance(int accountId)
+    [HttpGet("GetBalance/{accountId}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public ActionResult<double>? GetAccountBalance(int accountId)
     {
-        if (accountId == 0)
-        {
-            return null;
-        }
-        return _accountService.GetAccountBalance(accountId) ?? null;
+        var result = _accountService.GetAccountBalance(accountId);
+        return result != null ? Ok(result) : NotFound();
     }
 
     [HttpGet()]

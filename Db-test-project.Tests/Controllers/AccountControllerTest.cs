@@ -37,17 +37,19 @@ class AccountControllerTest
         var expectedAmount = 100.5;
         _accountService.GetAccountBalance(1).Returns(expectedAmount);
 
-        var result = _controller.GetAccountBalance(1);
+        var response = _controller.GetAccountBalance(1);
+        var result = (OkObjectResult)response.Result;
 
-        Assert.That(result, Is.EqualTo(expectedAmount));
+        Assert.That(result.Value, Is.EqualTo(expectedAmount));
     }
 
     [Test]
-    public void GetAccountBalanceTest_WithInValidId_ShouldReturnNull()
+    public void GetAccountBalanceTest_WithInvalidId_ShouldReturn404()
     {
-        var result = _controller.GetAccountBalance(1);
+        _accountService.GetAccountBalance(1).Returns(100);
+        var response = _controller.GetAccountBalance(0);
         
-        Assert.That(result, Is.Null);
+        Assert.That(response.Result, Is.TypeOf<NotFoundResult>());
     }
 
 }
