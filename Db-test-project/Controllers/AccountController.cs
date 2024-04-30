@@ -29,13 +29,14 @@ public class AccountController : ControllerBase
         return result != null ? Ok(result) : NotFound();
     }
 
-    [HttpGet()]
-    [Route("GetLatestTransactions/{accountId}")]
-    public IEnumerable<Transaction> GetLastestTransactions(int accountId)
+    [HttpGet("GetLatestTransactions/{accountId}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public ActionResult<IEnumerable<Transaction>> GetLastestTransactions(int accountId)
     {
         if (accountId == 0)
         {
-            return [];
+            return null;
         }
         return null;
         //return _accountService.GetTransactions(accountId)?.Balance ?? null;

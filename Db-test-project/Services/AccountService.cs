@@ -30,5 +30,10 @@ namespace Db_test_project.Services
         {
             return _accountLookupService.GetAccount(accountId)?.Balance ?? null;
         }
+
+        public IEnumerable<Transaction> GetTransactions(int AccountId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

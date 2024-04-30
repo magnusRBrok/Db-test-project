@@ -32,7 +32,7 @@ class AccountControllerTest
     }
 
     [Test]
-    public void GetAccountBalanceTest_WithValidId_ShouldReturnBalance()
+    public void GetAccountBalance_WithValidId_ShouldReturnBalance()
     {
         var expectedAmount = 100.5;
         _accountService.GetAccountBalance(1).Returns(expectedAmount);
@@ -40,15 +40,42 @@ class AccountControllerTest
         var response = _controller.GetAccountBalance(1);
         var result = (OkObjectResult)response.Result;
 
+        Assert.That(response.Result, Is.TypeOf<OkObjectResult>());
         Assert.That(result.Value, Is.EqualTo(expectedAmount));
     }
 
     [Test]
-    public void GetAccountBalanceTest_WithInvalidId_ShouldReturn404()
+    public void GetAccountBalance_WithInvalidId_ShouldReturn404()
     {
         _accountService.GetAccountBalance(1).Returns(100);
         var response = _controller.GetAccountBalance(0);
         
+        Assert.That(response.Result, Is.TypeOf<NotFoundResult>());
+    }
+
+    [Test]
+    public void GetLatestTransactions_WithValidId_ShouldReturnTransactions()
+    {
+        Transaction[] transactions = {
+            new() { AccountId = 1, Amount = 10.4},
+            new() { AccountId = 1, Amount = 0.4},
+            new() { AccountId = 1, Amount = 100.4},
+            new() { AccountId = 1, Amount = 1000},
+        };
+        _accountService.GetTransactions(1).Returns(transactions);
+
+        var response = _controller.GetLastestTransactions(1);
+        var result = (OkObjectResult)response.Result as IEnumerable<Transaction>;
+
+        Assert.That(response.Result, Is.TypeOf<OkObjectResult>());
+        Assert.That(result.First().Amount, Is.EqualTo(transactions[0].Amount));
+    }
+
+    [Test]
+    public void GetLatestTransactions_WithinvalidId_ShouldReturn404()
+    {
+        var response = _controller.GetLastestTransactions(0);
+
         Assert.That(response.Result, Is.TypeOf<NotFoundResult>());
     }
 
