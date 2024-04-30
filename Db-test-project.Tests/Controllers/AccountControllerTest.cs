@@ -1,10 +1,12 @@
 ﻿using DB_Test_API.Controllers;
 using DB_Test_API.Models;
 using DB_Test_API.Services;
+using Db_test_project.DTOs.Requests.Create;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
+using NSubstitute.ReturnsExtensions;
 
 namespace DB_Test_API.Tests;
 
@@ -39,8 +41,11 @@ class AccountControllerTest
         var response = _controller.GetAccountBalance(1);
         var result = (OkObjectResult)response.Result;
 
-        Assert.That(response.Result, Is.TypeOf<OkObjectResult>());
-        Assert.That(result.Value, Is.EqualTo(expectedAmount));
+        Assert.Multiple(() =>
+        {
+            Assert.That(response.Result, Is.TypeOf<OkObjectResult>());
+            Assert.That(result.Value, Is.EqualTo(expectedAmount));
+        });
     }
 
     [Test]
@@ -66,9 +71,12 @@ class AccountControllerTest
         var response = _controller.GetLastestTransactions(1);
         var result = ((OkObjectResult)response.Result).Value as IEnumerable<Transaction>;
 
-        Assert.That(response.Result, Is.TypeOf<OkObjectResult>());
-        Assert.That(result.First().Amount, Is.EqualTo(transactions.First().Amount));
-        Assert.That(result.Count, Is.EqualTo(transactions.Count));
+        Assert.Multiple(() =>
+        {
+            Assert.That(response.Result, Is.TypeOf<OkObjectResult>());
+            Assert.That(result.First().Amount, Is.EqualTo(transactions.First().Amount));
+            Assert.That(result.Count, Is.EqualTo(transactions.Count));
+        });
     }
 
     [Test]
@@ -79,4 +87,37 @@ class AccountControllerTest
         Assert.That(response.Result, Is.TypeOf<NotFoundResult>());
     }
 
+    public void CreateAccount_WithValidId_ShouldReturnResponse()
+    {
+        var mockAccount = new Account { Id = 1, CustomerId = 1, Balance = 0 };
+        _accountService.CreateAccount(1).Returns(mockAccount);
+
+        var response = _controller.CreateAccount(new CreateAccountDto { CustomerId = 1});
+        var result = ((OkObjectResult)response.Result).Value as Account;
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(response.Result, Is.TypeOf<OkObjectResult>());
+            Assert.That(result.Id, Is.EqualTo(mockAccount.Id));
+            Assert.That(result.Balance, Is.EqualTo(mockAccount.Balance));
+            Assert.That(result.CustomerId, Is.EqualTo(mockAccount.CustomerId));
+        });
+    }
+
+    [Test]
+    public void CreateAccount_WithinvalidId_ShouldReturn400()
+    {
+        var response = _controller.CreateAccount(new CreateAccountDto { CustomerId = 0 });
+
+        Assert.That(response.Result, Is.TypeOf<BadRequestResult>());
+    }
+
+    [Test]
+    public void CreateAccount_WithUnknownCustomerId_ShouldReturn404()
+    {
+        _accountService.CreateAccount(1).ReturnsNull();
+        var response = _controller.CreateAccount(new CreateAccountDto { CustomerId = 13 });
+
+        Assert.That(response.Result, Is.TypeOf<NotFoundResult>());
+    }
 }

@@ -15,15 +15,19 @@ namespace Db_test_project.Services
             _accountLookupService = accountLookupService;
         }
 
-        public void CreateAccount(int customerId)
+        public Account? CreateAccount(int customerId)
         {
-            //var newAccount = new Account()
-            //{
-            //    Id = MRa,
-            //    Balance = 0,
-            //    CustomerId = customerId
-            //};
-            //accounts.Add(newAccount);
+            // Do user lookup
+            // If DB.User.Find(customerId) == null
+            // return null
+            // Else user is created
+            var newAccount = new Account()
+            {
+                Id = 1,
+                Balance = 0,
+                CustomerId = customerId
+            };
+            return newAccount;
         }
 
         public double? GetAccountBalance(int accountId)

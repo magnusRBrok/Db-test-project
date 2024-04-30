@@ -6,5 +6,5 @@ public interface IAccountService
 {
     public double? GetAccountBalance(int accountId);
     public List<Transaction>? GetTransactions(int accountId);
-    public void CreateAccount (int customerId);
+    public Account? CreateAccount (int customerId);
 }
