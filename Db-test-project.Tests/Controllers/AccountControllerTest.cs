@@ -4,7 +4,6 @@ using DB_Test_API.Services;
 using Db_test_project.DTOs.Requests.Create;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 

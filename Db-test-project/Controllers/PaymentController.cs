@@ -7,13 +7,13 @@ namespace Db_test_project.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class PaymentController : Controller
+    public class PaymentController : ControllerBase
     {
-        private readonly IPaymentService _PaymentService;
+        private readonly IPaymentService _paymentService;
 
         public PaymentController(IPaymentService paymentService)
         {
-            _PaymentService = paymentService;
+            _paymentService = paymentService;
         }
 
         [HttpPost("Deposit")]
