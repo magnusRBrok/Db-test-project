@@ -44,12 +44,21 @@ public class AccountController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult<CreateAccountResponse> CreateAccount(CreateAccountDto accountDto)
     {
-        if (accountDto == null || accountDto.CustomerId == 0)
+        if (accountDto == null || accountDto.CustomerId == 0) // invalid request
         {
             return BadRequest();
         }
-        return null;
-        //return _accountService.GetTransactions(accountId)?.Balance ?? null;
+        var createdAccount = _accountService.CreateAccount(accountDto.CustomerId);
+        if (createdAccount == null)
+        {
+            return NotFound(); // customer was not found in DB
+        }
+        return Ok(new CreateAccountResponse // customer was created
+        {
+            Balance = createdAccount.Balance,
+            CustomerId = createdAccount.CustomerId,
+            Id = createdAccount.Id,
+        });
     }
 
 }
