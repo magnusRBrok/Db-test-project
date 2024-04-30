@@ -1,6 +1,7 @@
 ﻿using DB_Test_API.Models;
 using DB_Test_API.Services;
-using Db_test_project.DTOs.Create;
+using Db_test_project.DTOs.Requests.Create;
+using Db_test_project.DTOs.Responses;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DB_Test_API.Controllers;
@@ -37,9 +38,11 @@ public class AccountController : ControllerBase
         return result != null ? Ok(result) : NotFound();
     }
 
-    [HttpPost()]
-    [Route("CreateAccount")]
-    public IActionResult CreateAccount(CreateAccountDto accountDto)
+    [HttpPost("CreateAccount")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public ActionResult<CreateAccountResponse> CreateAccount(CreateAccountDto accountDto)
     {
         if (accountDto == null || accountDto.CustomerId == 0)
         {
