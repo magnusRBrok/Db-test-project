@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
-using NUnit.Framework;
 
 namespace DB_Test_API.Tests;
 
@@ -56,7 +55,7 @@ class AccountControllerTest
     [Test]
     public void GetLatestTransactions_WithValidId_ShouldReturnTransactions()
     {
-        Transaction[] transactions = {
+         var transactions = new List<Transaction>() {
             new() { AccountId = 1, Amount = 10.4},
             new() { AccountId = 1, Amount = 0.4},
             new() { AccountId = 1, Amount = 100.4},
@@ -65,10 +64,11 @@ class AccountControllerTest
         _accountService.GetTransactions(1).Returns(transactions);
 
         var response = _controller.GetLastestTransactions(1);
-        var result = (OkObjectResult)response.Result as IEnumerable<Transaction>;
+        var result = ((OkObjectResult)response.Result).Value as IEnumerable<Transaction>;
 
         Assert.That(response.Result, Is.TypeOf<OkObjectResult>());
-        Assert.That(result.First().Amount, Is.EqualTo(transactions[0].Amount));
+        Assert.That(result.First().Amount, Is.EqualTo(transactions.First().Amount));
+        Assert.That(result.Count, Is.EqualTo(transactions.Count));
     }
 
     [Test]

@@ -5,6 +5,6 @@ namespace DB_Test_API.Services;
 public interface IAccountService
 {
     public double? GetAccountBalance(int accountId);
-    public IEnumerable<Transaction> GetTransactions(int AccountId);
+    public List<Transaction>? GetTransactions(int accountId);
     public void CreateAccount (int customerId);
 }

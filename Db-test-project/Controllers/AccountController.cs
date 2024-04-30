@@ -1,7 +1,6 @@
 ﻿using DB_Test_API.Models;
 using DB_Test_API.Services;
 using Db_test_project.DTOs.Create;
-using Db_test_project.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DB_Test_API.Controllers;
@@ -34,12 +33,8 @@ public class AccountController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult<IEnumerable<Transaction>> GetLastestTransactions(int accountId)
     {
-        if (accountId == 0)
-        {
-            return null;
-        }
-        return null;
-        //return _accountService.GetTransactions(accountId)?.Balance ?? null;
+        var result = _accountService.GetTransactions(accountId);
+        return result != null ? Ok(result) : NotFound();
     }
 
     [HttpPost()]
