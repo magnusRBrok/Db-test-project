@@ -16,14 +16,12 @@ class AccountControllerTest
 {
     private AccountController _controller;
     private IAccountService _accountService;
-    private ILogger<AccountController> _logger;
 
     [SetUp]
     public void Setup()
     {
         _accountService = Substitute.For<IAccountService>();
-        _logger = Substitute.For<ILogger<AccountController>>();
-        _controller = new AccountController(_logger, _accountService)
+        _controller = new AccountController(_accountService)
         {
             ControllerContext = new ControllerContext
             {

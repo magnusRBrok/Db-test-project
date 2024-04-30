@@ -11,12 +11,10 @@ namespace DB_Test_API.Controllers;
 public class AccountController : ControllerBase
 {
 
-    private readonly ILogger<AccountController> _logger;
     private readonly IAccountService _accountService;
 
-    public AccountController(ILogger<AccountController> logger, IAccountService accountService)
+    public AccountController(IAccountService accountService)
     {
-        _logger = logger;
         _accountService = accountService;
     }
 
