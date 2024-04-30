@@ -1,9 +1,7 @@
-﻿using DB_Test_API.Models;
-
-namespace DB_Test_API.Services;
+﻿namespace DB_Test_API.Services;
 
 public interface IAccountService
 {
-    public Account? GetAccount(int accountId);
+    public double? GetAccountBalance(int accountId);
     public void CreateAccount (int customerId);
 }

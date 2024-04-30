@@ -34,12 +34,12 @@ class AccountControllerTest
     [Test]
     public void GetAccountBalanceTest_WithValidId_ShouldReturnBalance()
     {
-        var testAccount = new Account { Id = 1, Balance = 100.5 };
-        _accountService.GetAccount(1).Returns(testAccount);
+        var expectedAmount = 100.5;
+        _accountService.GetAccountBalance(1).Returns(expectedAmount);
 
         var result = _controller.GetAccountBalance(1);
 
-        Assert.That(result, Is.EqualTo(testAccount.Balance));
+        Assert.That(result, Is.EqualTo(expectedAmount));
     }
 
     [Test]

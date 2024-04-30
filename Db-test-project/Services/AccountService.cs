@@ -9,26 +9,26 @@ namespace Db_test_project.Services
     /// </summary>
     public class AccountService : IAccountService
     {
-        private static List<Account> accounts = new List<Account>()
+        private readonly IAccountLookupService _accountLookupService;
+        public AccountService(IAccountLookupService accountLookupService)
         {
-            new Account { Id = 1, Balance = 100.5, CustomerId = 1 },
-            new Account { Id = 2, Balance = 0, CustomerId = 2 },
-        };
-        public void CreateAccount(int customerId)
-        {
-            var newAccount = new Account()
-            {
-                Id = accounts.Count + 1,
-                Balance = 0,
-                CustomerId = customerId
-            };
-            accounts.Add(newAccount);
+            _accountLookupService = accountLookupService;
         }
 
-        public Account? GetAccount(int accountId)
+        public void CreateAccount(int customerId)
         {
-           var account = accounts.Find(a => a.Id == accountId);
-           return account ?? null;
+            //var newAccount = new Account()
+            //{
+            //    Id = MRa,
+            //    Balance = 0,
+            //    CustomerId = customerId
+            //};
+            //accounts.Add(newAccount);
+        }
+
+        public double? GetAccountBalance(int accountId)
+        {
+            return _accountLookupService.GetAccount(accountId)?.Balance ?? null;
         }
     }
 }
