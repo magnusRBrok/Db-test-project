@@ -2,6 +2,7 @@
 using DB_Test_API.Models;
 using DB_Test_API.Services;
 using Db_test_project.DTOs.Requests.Create;
+using Db_test_project.DTOs.Responses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
@@ -84,17 +85,19 @@ class AccountControllerTest
         Assert.That(response.Result, Is.TypeOf<NotFoundResult>());
     }
 
+    [Test]
     public void CreateAccount_WithValidId_ShouldReturnResponse()
     {
         var mockAccount = new Account { Id = 1, CustomerId = 1, Balance = 0 };
         _accountService.CreateAccount(1).Returns(mockAccount);
 
         var response = _controller.CreateAccount(new CreateAccountDto { CustomerId = 1});
-        var result = ((OkObjectResult)response.Result).Value as Account;
+        var result = ((OkObjectResult)response.Result).Value as CreateAccountResponse;
 
         Assert.Multiple(() =>
         {
             Assert.That(response.Result, Is.TypeOf<OkObjectResult>());
+            Assert.That(result, Is.Not.Null);
             Assert.That(result.Id, Is.EqualTo(mockAccount.Id));
             Assert.That(result.Balance, Is.EqualTo(mockAccount.Balance));
             Assert.That(result.CustomerId, Is.EqualTo(mockAccount.CustomerId));
