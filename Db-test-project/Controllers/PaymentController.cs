@@ -23,7 +23,17 @@ namespace Db_test_project.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<Transaction> Deposit(PaymentDTO paymentDTO)
         {
-            return null;
+            // invalid request data
+            if (paymentDTO == null || paymentDTO.AccountId == 0 || paymentDTO.Amount <= 0)
+            {
+                return BadRequest();
+            }
+            var transaction = _paymentService.Deposit(paymentDTO.AccountId, paymentDTO.Amount);
+            if (transaction == null)
+            {
+                return NotFound(); // Account was not found in DB
+            }
+            return Ok(transaction);
         }
 
         [HttpPost("Withdraw")]

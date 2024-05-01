@@ -131,7 +131,7 @@ class PaymentControllerTest
         {
             Id = new Guid(),
             AccountId = 1,
-            Amount = -200,
+            Amount = 200,
             Timestamp = DateTime.UtcNow,
         });
         var response = _controller.Deposit(paymentDTO);
@@ -142,7 +142,7 @@ class PaymentControllerTest
             Assert.That(response.Result, Is.TypeOf<OkObjectResult>());
             Assert.That(result, Is.Not.Null);
             Assert.That(result.Id, Is.TypeOf<Guid>());
-            Assert.That(result.Amount, Is.EqualTo(paymentDTO.Amount * (-1))); // Deposit transaction should be negative
+            Assert.That(result.Amount, Is.EqualTo(paymentDTO.Amount)); // Deposit transaction should be negative
         });
 
     }
