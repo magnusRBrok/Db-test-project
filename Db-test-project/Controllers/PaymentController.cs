@@ -1,5 +1,6 @@
 ﻿using DB_Test_API.Models;
 using Db_test_project.DTOs.Requests.Create;
+using Db_test_project.DTOs.Responses;
 using Db_test_project.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,7 +32,17 @@ namespace Db_test_project.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<Transaction> Withdraw(PaymentDTO paymentDTO)
         {
-            return null;
+            // invalid request data
+            if (paymentDTO == null || paymentDTO.AccountId == 0 || paymentDTO.Amount <= 0) 
+            {
+                return BadRequest();
+            }
+            var transaction = _paymentService.Withdraw(paymentDTO.AccountId, paymentDTO.Amount);
+            if (transaction == null)
+            {
+                return NotFound(); // Account was not found in DB
+            }
+            return Ok(transaction);
         }
     }
 }
