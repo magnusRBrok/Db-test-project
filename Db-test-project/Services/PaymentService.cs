@@ -11,14 +11,41 @@ namespace Db_test_project.Services
     {
         private readonly IAccountLookupService _accountLookupService;
 
+        public PaymentService(IAccountLookupService accountLookupService)
+        {
+            _accountLookupService = accountLookupService;
+        }
+
         Transaction? IPaymentService.Deposit(int accountId, double amount)
         {
-            throw new NotImplementedException();
+            var account = _accountLookupService.GetAccount(accountId);
+            if (account == null)
+            {
+                return null;
+            }
+            return CreateTransaction(accountId, amount);
         }
 
         Transaction? IPaymentService.Withdraw(int accountId, double amount)
         {
-            throw new NotImplementedException();
+            var account = _accountLookupService.GetAccount(accountId);
+            if (account == null)
+            {
+                return null;
+            }
+            return CreateTransaction(accountId, amount);
+        }
+
+        private Transaction CreateTransaction(int accountId, double amount)
+        {
+            // Add transaction to Database before return
+            return new Transaction()
+            {
+                Id = new Guid(),
+                Amount = amount,
+                AccountId = accountId,
+                Timestamp = DateTime.UtcNow,
+            };
         }
     }
 }
