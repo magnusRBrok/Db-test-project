@@ -57,7 +57,9 @@ namespace Db_test_project.Services
             {
                 return null;
             }
-            return account.Transactions?.ToList();
+            var transactions = account.Transactions?.ToList();
+            transactions?.Sort((x, y) => DateTime.Compare(y.Timestamp, x.Timestamp));
+            return transactions?.Count > 10 ? transactions.Slice(0, 10) : transactions;
 
         }
     }

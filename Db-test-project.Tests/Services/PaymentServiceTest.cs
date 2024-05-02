@@ -117,7 +117,7 @@ class PaymentServiceTest
         {
             Assert.That(result.Count, Is.EqualTo(10));
             Assert.That(result.First().Amount, Is.EqualTo(transactions.ElementAt(3).Amount));
-            Assert.That(result.Find(e => e.Amount == 404), Is.Null);
+            Assert.That(result.Find(e => e.Amount == 404d), Is.Null);
         });
     }
 }
