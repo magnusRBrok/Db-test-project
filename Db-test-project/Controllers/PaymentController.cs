@@ -1,4 +1,5 @@
 ﻿using DB_Test_API.Models;
+using DB_Test_API.Services;
 using Db_test_project.DTOs.Requests.Create;
 using Db_test_project.DTOs.Responses;
 using Db_test_project.Services;
@@ -15,6 +16,15 @@ namespace Db_test_project.Controllers
         public PaymentController(IPaymentService paymentService)
         {
             _paymentService = paymentService;
+        }
+
+        [HttpGet("GetLatestTransactions/{accountId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult<IEnumerable<Transaction>> Get10LastestTransactions(int accountId)
+        {
+            var result = _paymentService.GetTenLatestTransactions(accountId);
+            return result != null ? Ok(result) : NotFound();
         }
 
         [HttpPost("Deposit")]

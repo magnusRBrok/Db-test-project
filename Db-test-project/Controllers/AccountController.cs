@@ -27,15 +27,6 @@ public class AccountController : ControllerBase
         return result != null ? Ok(result) : NotFound();
     }
 
-    [HttpGet("GetLatestTransactions/{accountId}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public ActionResult<IEnumerable<Transaction>> GetLastestTransactions(int accountId)
-    {
-        var result = _accountService.GetTransactions(accountId);
-        return result != null ? Ok(result) : NotFound();
-    }
-
     [HttpPost("CreateAccount")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

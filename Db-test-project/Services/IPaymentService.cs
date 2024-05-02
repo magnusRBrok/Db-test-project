@@ -6,4 +6,5 @@ public interface IPaymentService
 {
     public Transaction? Deposit(int accountId, double amount);
     public Transaction? Withdraw(int accountId, double amount);
+    public List<Transaction>? GetTenLatestTransactions(int accountId);
 }

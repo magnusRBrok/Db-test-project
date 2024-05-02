@@ -49,5 +49,16 @@ namespace Db_test_project.Services
                 Timestamp = DateTime.UtcNow,
             };
         }
+
+        public List<Transaction>? GetTenLatestTransactions(int accountId)
+        {
+            var account = _accountLookupService.GetAccount(accountId);
+            if (account == null)
+            {
+                return null;
+            }
+            return account.Transactions?.ToList();
+
+        }
     }
 }

@@ -56,36 +56,6 @@ class AccountControllerTest
     }
 
     [Test]
-    public void GetLatestTransactions_WithValidId_ShouldReturnTransactions()
-    {
-         var transactions = new List<Transaction>() {
-            new() { AccountId = 1, Amount = 10.4},
-            new() { AccountId = 1, Amount = 0.4},
-            new() { AccountId = 1, Amount = 100.4},
-            new() { AccountId = 1, Amount = 1000},
-        };
-        _accountService.GetTransactions(1).Returns(transactions);
-
-        var response = _controller.GetLastestTransactions(1);
-        var result = ((OkObjectResult)response.Result).Value as IEnumerable<Transaction>;
-
-        Assert.Multiple(() =>
-        {
-            Assert.That(response.Result, Is.TypeOf<OkObjectResult>());
-            Assert.That(result.First().Amount, Is.EqualTo(transactions.First().Amount));
-            Assert.That(result.Count, Is.EqualTo(transactions.Count));
-        });
-    }
-
-    [Test]
-    public void GetLatestTransactions_WithinvalidId_ShouldReturn404()
-    {
-        var response = _controller.GetLastestTransactions(0);
-
-        Assert.That(response.Result, Is.TypeOf<NotFoundResult>());
-    }
-
-    [Test]
     public void CreateAccount_WithValidId_ShouldReturnResponse()
     {
         var mockAccount = new Account { Id = 1, CustomerId = 1, Balance = 0 };
