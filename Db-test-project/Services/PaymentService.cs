@@ -16,24 +16,26 @@ namespace Db_test_project.Services
             _accountLookupService = accountLookupService;
         }
 
-        Transaction? IPaymentService.Deposit(int accountId, double amount)
+        public Transaction? Deposit(int accountId, double amount)
         {
             var account = _accountLookupService.GetAccount(accountId);
             if (account == null)
             {
                 return null;
             }
-            return CreateTransaction(accountId, amount);
+            account.Balance += Math.Abs(amount);
+            return CreateTransaction(accountId, Math.Abs(amount));
         }
 
-        Transaction? IPaymentService.Withdraw(int accountId, double amount)
+        public Transaction? Withdraw(int accountId, double amount)
         {
             var account = _accountLookupService.GetAccount(accountId);
             if (account == null)
             {
                 return null;
             }
-            return CreateTransaction(accountId, amount);
+            account.Balance -= Math.Abs(amount);
+            return CreateTransaction(accountId, Math.Abs(amount)*(-1));
         }
 
         private Transaction CreateTransaction(int accountId, double amount)
