@@ -1,4 +1,5 @@
 ﻿using DB_Test_API.Models;
+using DB_Test_API.Services;
 using Db_test_project.Controllers;
 using Db_test_project.DTOs.Requests.Create;
 using Db_test_project.Services;
@@ -142,5 +143,13 @@ class PaymentControllerTest
             Assert.That(result.Amount, Is.EqualTo(paymentDTO.Amount)); // Deposit transaction should be negative
         });
 
+    }
+
+    [Test]
+    public void GetTenLatestTransactions_WithinvalidId_ShouldReturn404()
+    {
+        var response = _controller.Get10LastestTransactions(0);
+
+        Assert.That(response.Result, Is.TypeOf<NotFoundResult>());
     }
 }
