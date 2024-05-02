@@ -4,6 +4,8 @@
 
 This project is a microservice for handling simple CRUD operations in a retail banking setup. The purpose of this solution is to show how a potential replacement to an existing monolith structure could look like. 
 
+For simplicities sake the solution features no database connection, and instead I have worked with a test-driven approach and used mock data to show develop my features via Unit Testing. 
+
 ## Features 
 
 The system is a REST API based on the .NET 8 framework, and it exposed the following endpoints 
