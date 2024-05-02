@@ -1,9 +1,6 @@
-﻿using DB_Test_API.Controllers;
-using DB_Test_API.Models;
-using DB_Test_API.Services;
+﻿using DB_Test_API.Models;
 using Db_test_project.Controllers;
 using Db_test_project.DTOs.Requests.Create;
-using Db_test_project.DTOs.Responses;
 using Db_test_project.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -33,7 +30,7 @@ class PaymentControllerTest
     }
 
     [Test]
-    public void Withdraw_WithinvalidId_ShouldReturn400()
+    public void Withdraw_WithInvalidId_ShouldReturn400()
     {
         var response = _controller.Withdraw(new PaymentDTO { AccountId = 0, Amount = 200.5 });
 
@@ -91,7 +88,7 @@ class PaymentControllerTest
 
 
     [Test]
-    public void Deposit_WithinvalidId_ShouldReturn400()
+    public void Deposit_WithInvalidId_ShouldReturn400()
     {
         var response = _controller.Deposit(new PaymentDTO { AccountId = 0, Amount = 200.5 });
 
