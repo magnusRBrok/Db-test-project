@@ -24,7 +24,7 @@ namespace Db_test_project.Services
                 return null;
             }
             account.Balance += Math.Abs(amount);
-            return CreateTransaction(accountId, Math.Abs(amount));
+            return CreateTransaction(account, Math.Abs(amount)); ;
         }
 
         public Transaction? Withdraw(int accountId, double amount)
@@ -35,19 +35,29 @@ namespace Db_test_project.Services
                 return null;
             }
             account.Balance -= Math.Abs(amount);
-            return CreateTransaction(accountId, Math.Abs(amount)*(-1));
+            return CreateTransaction(account, Math.Abs(amount) * (-1));;
         }
 
-        private Transaction CreateTransaction(int accountId, double amount)
+        private Transaction CreateTransaction(Account account, double amount)
         {
             // Add transaction to Database before return
-            return new Transaction()
+            var transaction = new Transaction()
             {
-                Id = new Guid(),
+                Id = Guid.NewGuid(),
                 Amount = amount,
-                AccountId = accountId,
+                AccountId = account.Id,
                 Timestamp = DateTime.UtcNow,
             };
+            if (account.Transactions != null)
+            {
+                account.Transactions = account.Transactions.Append(transaction);
+            }
+            else
+            {
+                account.Transactions = [transaction];
+            }
+            return transaction;
+
         }
 
         public List<Transaction>? GetTenLatestTransactions(int accountId)
@@ -56,6 +66,10 @@ namespace Db_test_project.Services
             if (account == null)
             {
                 return null;
+            }
+            if (account.Transactions == null)
+            {
+                return new List<Transaction> {};
             }
             var transactions = account.Transactions?.ToList();
             transactions?.Sort((x, y) => DateTime.Compare(y.Timestamp, x.Timestamp));

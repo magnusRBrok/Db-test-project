@@ -25,8 +25,10 @@ namespace Db_test_project.Services
             {
                 Id = 1,
                 Balance = 0,
-                CustomerId = customerId
+                CustomerId = customerId,
+                Transactions = []
             };
+            _accountLookupService.CreateAccount(newAccount);
             return newAccount;
         }
 

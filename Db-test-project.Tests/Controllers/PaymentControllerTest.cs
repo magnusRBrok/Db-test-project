@@ -69,7 +69,7 @@ class PaymentControllerTest
         var paymentDTO = new PaymentDTO { AccountId = 1, Amount = 200 };
         _paymentService.Withdraw(paymentDTO.AccountId, paymentDTO.Amount).Returns(new Transaction
         {
-            Id = new Guid(),
+            Id = Guid.NewGuid(),
             AccountId = 1,
             Amount = -200,
             Timestamp = DateTime.UtcNow,
@@ -127,7 +127,7 @@ class PaymentControllerTest
         var paymentDTO = new PaymentDTO { AccountId = 1, Amount = 200 };
         _paymentService.Deposit(paymentDTO.AccountId, paymentDTO.Amount).Returns(new Transaction
         {
-            Id = new Guid(),
+            Id = Guid.NewGuid(),
             AccountId = 1,
             Amount = 200,
             Timestamp = DateTime.UtcNow,
